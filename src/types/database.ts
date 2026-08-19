@@ -111,6 +111,46 @@ export interface BusinessWithRelations extends Business {
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface Database {
   public: {
-    Tables: Record<string, { Row: any; Insert: any; Update: any }>;
+    Tables: {
+      categories: {
+        Row: Category;
+        Insert: Partial<Category>;
+        Update: Partial<Category>;
+      };
+      businesses: {
+        Row: Business;
+        Insert: Partial<Business>;
+        Update: Partial<Business>;
+      };
+      business_images: {
+        Row: BusinessImage;
+        Insert: Partial<BusinessImage>;
+        Update: Partial<BusinessImage>;
+      };
+      reviews: {
+        Row: Review;
+        Insert: Partial<Review>;
+        Update: Partial<Review>;
+      };
+      offers: {
+        Row: Offer;
+        Insert: Partial<Offer>;
+        Update: Partial<Offer>;
+      };
+      events: {
+        Row: EventLog;
+        Insert: Partial<EventLog>;
+        Update: Partial<EventLog>;
+      };
+      admin_users: {
+        Row: AdminUser;
+        Insert: Partial<AdminUser>;
+        Update: Partial<AdminUser>;
+      };
+    };
+    Views: Record<string, never>;
+    Functions: Record<string, never>;
+    Enums: Record<string, never>;
+    CompositeTypes: Record<string, never>;
   };
 }
