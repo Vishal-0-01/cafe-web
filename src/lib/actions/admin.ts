@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import type { Database } from "@/types/database";
 import { createClient } from "@/lib/supabase/server";
 import { slugify } from "@/lib/utils";
 
@@ -67,7 +68,10 @@ export async function upsertBusiness(formData: FormData) {
   };
 
   if (id) {
-    const { error } = await supabase.from("businesses").update(payload).eq("id", id);
+    const { error } = await supabase
+      .from("businesses")
+      .update(payload as Database["public"]["Tables"]["businesses"]["Update"])
+      .eq("id", id);
     if (error) throw new Error(error.message);
   } else {
     const { error } = await supabase.from("businesses").insert(payload);
