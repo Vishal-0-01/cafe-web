@@ -5,11 +5,36 @@ import BusinessForm from "@/components/admin/BusinessForm";
 export default async function EditBusinessPage({ params }: { params: { id: string } }) {
   const supabase = createClient();
 
-  const [{ data: business }, { data: categories }, { data: images }] = await Promise.all([
-    supabase.from("businesses").select("*").eq("id", params.id).single(),
-    supabase.from("categories").select("*").order("sort_order"),
-    supabase.from("business_images").select("*").eq("business_id", params.id).order("sort_order"),
-  ]);
+  const businessQuery = supabase
+  .from("businesses")
+  .select("*")
+  .eq("id", params.id)
+  .single();
+
+const categoriesQuery = supabase
+  .from("categories")
+  .select("*")
+  .order("sort_order");
+
+const imagesQuery = supabase
+  .from("business_images")
+  .select("*")
+  .eq("business_id", params.id)
+  .order("sort_order");
+
+const [
+  { data: business, error: businessError },
+  { data: categories },
+  { data: images },
+] = await Promise.all([
+  businessQuery,
+  categoriesQuery,
+  imagesQuery,
+]);
+
+if (businessError || !business) {
+  notFound();
+}
 
   if (!business) notFound();
 
